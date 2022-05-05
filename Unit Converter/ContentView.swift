@@ -12,6 +12,8 @@ struct ContentView: View {
     @State private var inputUnit = "Km"
     @State private var outputUnit = "Km"
     
+    @FocusState private var inputIsFocused: Bool
+    
     let units = ["Km", "Ft", "Yd", "Ml"]
     
     var result: String {
@@ -47,7 +49,7 @@ struct ContentView: View {
         let inputMeters = input * inputToMetersMultiplier
         let output = inputMeters * metersToOutputMultiplier
         
-        let outputString = output.formatted()
+        let outputString = output.formattedWithSeprator
         return "\(outputString) \(outputUnit.lowercased())"
         
     }
@@ -58,6 +60,8 @@ struct ContentView: View {
             Form {
                 Section {
                     TextField("Amount", value: $input, format: .number)
+                        .keyboardType(.decimalPad)
+                        .focused($inputIsFocused)
                 } header: {
                     Text("Enter amount here")
                 }
@@ -92,6 +96,14 @@ struct ContentView: View {
                 
             }
             .navigationTitle("Unit Converter")
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                        inputIsFocused = false
+                    }
+                }
+            }
         }
     }
     
@@ -99,5 +111,20 @@ struct ContentView: View {
         static var previews: some View {
             ContentView()
         }
+    }
+}
+
+extension Formatter {
+    static let withSeparator: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.groupingSeparator = " "
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
+}
+
+extension Double {
+    var formattedWithSeprator: String {
+        return Formatter.withSeparator.string(for: self) ?? ""
     }
 }
