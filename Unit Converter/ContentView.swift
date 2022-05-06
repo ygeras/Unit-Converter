@@ -8,50 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var input = 0.0
-    @State private var inputUnit = "Km"
-    @State private var outputUnit = "Km"
+    @State private var input = 100.0
+    @State private var inputUnit = UnitLength.meters
+    @State private var outputUnit = UnitLength.kilometers
     
     @FocusState private var inputIsFocused: Bool
     
-    let units = ["Km", "Ft", "Yd", "Ml"]
+    let formatter: MeasurementFormatter
+    
+    let units: [UnitLength] = [.feet, .kilometers, .meters, .miles, .yards]
     
     var result: String {
-        let inputToMetersMultiplier: Double
-        let metersToOutputMultiplier: Double
-        
-        switch inputUnit {
-        case "Km":
-            inputToMetersMultiplier = 1000
-        case "Ft":
-            inputToMetersMultiplier = 0.3048
-        case "Yd":
-            inputToMetersMultiplier = 0.9144
-        case "Ml":
-            inputToMetersMultiplier = 1609.34
-        default:
-            inputToMetersMultiplier = 1
-        }
-        
-        switch outputUnit {
-        case "Km":
-            metersToOutputMultiplier = 0.001
-        case "Ft":
-            metersToOutputMultiplier = 3.28084
-        case "Yd":
-            metersToOutputMultiplier = 1.09361
-        case "Ml":
-            metersToOutputMultiplier = 0.000621371
-        default:
-            metersToOutputMultiplier = 1.0
-        }
-        
-        let inputMeters = input * inputToMetersMultiplier
-        let output = inputMeters * metersToOutputMultiplier
-        
-        let outputString = output.formattedWithSeprator
-        return "\(outputString) \(outputUnit.lowercased())"
-        
+        let inputMeasurement = Measurement(value: input, unit: inputUnit)
+        let outputMeasurement = inputMeasurement.converted(to: outputUnit)
+        return formatter.string(from: outputMeasurement)
+    }
+    
+    init() {
+        formatter = MeasurementFormatter()
+        formatter.unitOptions = .providedUnit
+        formatter.unitStyle = .medium
     }
     
     
@@ -69,7 +45,7 @@ struct ContentView: View {
                 Section {
                     Picker("Unit from", selection: $inputUnit) {
                         ForEach(units, id: \.self) {
-                            Text($0)
+                            Text(formatter.string(from: $0))
                         }
                     }
                     .pickerStyle(.segmented)
@@ -80,7 +56,7 @@ struct ContentView: View {
                 Section {
                     Picker("Unit from", selection: $outputUnit) {
                         ForEach(units, id: \.self) {
-                            Text($0)
+                            Text(formatter.string(from: $0))
                         }
                     }
                     .pickerStyle(.segmented)
@@ -111,20 +87,5 @@ struct ContentView: View {
         static var previews: some View {
             ContentView()
         }
-    }
-}
-
-extension Formatter {
-    static let withSeparator: NumberFormatter = {
-        let formatter = NumberFormatter()
-        formatter.groupingSeparator = " "
-        formatter.numberStyle = .decimal
-        return formatter
-    }()
-}
-
-extension Double {
-    var formattedWithSeprator: String {
-        return Formatter.withSeparator.string(for: self) ?? ""
     }
 }
