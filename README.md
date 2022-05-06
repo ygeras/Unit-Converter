@@ -17,3 +17,4 @@ In case of additions you might need to change segmented picker to default one to
 
 ## Project Screen
 
+<img src="images/converter.png" width="300">
