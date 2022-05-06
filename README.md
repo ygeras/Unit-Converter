@@ -2,7 +2,7 @@
 
 ## Project Description
 
-The project is a part of 100 Days of SwiftUI curriculum by Paul Hudson [Hacking with swift](https://www.hackingwithswift.com)
+The project is a part of 100 Days of SwiftUI curriculum by Paul Hudson [Hacking with swift](https://www.hackingwithswift.com/100/swiftui)
 
 The app converts different measurement units such as kilometers, meters, yards etc.
 Current project includes following measurements:
