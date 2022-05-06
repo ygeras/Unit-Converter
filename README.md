@@ -17,4 +17,4 @@ In case of additions you might need to change segmented picker to default one to
 
 ## Project Screen
 
-![](/images/Simulator Screen Shot.png)
+![](/Users/ygerasimchuk/Documents/iOS Courses/Hacking with Swift/100 Days of SwiftUI/Challenges/Unit Converter/images/Simulator Screen Shot.png)
