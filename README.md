@@ -31,4 +31,4 @@ In case of additions you might need to change segmented picker to default one to
 ```
 ## Project Screen
 
-<img src="images/converter.png" width="300">
+<img src="images/UnitConverter1.png" width="300">   <img src="images/UnitConverter2.png" width="300">   <img src="images/UnitConverter3.png" width="300">
